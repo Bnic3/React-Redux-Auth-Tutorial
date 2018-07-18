@@ -24,7 +24,7 @@ const AppRouter  = () => {
 const Home = () =>(
     <div>
     <h2>Home</h2>
-    <div class="alert alert-primary" role="alert">
+    <div className="alert alert-primary" role="alert">
          A simple primary alert—check it out!
 </div>
     </div>

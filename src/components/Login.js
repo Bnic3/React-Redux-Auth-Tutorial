@@ -14,12 +14,46 @@ class Login extends Component {
         super(props);
         this.state = {username: "",
                       password:"",
-                      cursor: false  }
+                      cursor: false,
+                    errors:{}  }
     }
 
 formHandler = (e) => this.setState({[e.target.name]: e.target.value})  // formHandler for the fields
 
+validateFormInput= (data)=>{
+    const errors = {};
+    if(Validator.isEmpty(data.username)){
+      errors.username = "Username is required";
+    }
+    if(Validator.isEmpty(data.password)){
+      errors.password = "Password is required";
+    }
+    return {
+        errors,
+        isValid: isEmpty(errors)
+      }
+}   
+
+onFormSubmit = async (e)=> {
+    e.preventDefault()
+    this.setState({errors:{}})
+    const {username,password} = this.state;
+    console.log(`attempting to log in with ${username} and ${password}`)
+
+    const {errors, isValid} = this.validateFormInput(this.state)
+    console.log("errors" +errors)
+    console.log("cursor "+ this.state.cursor)
+
+    if(isValid){  
+        this.setState({ cursor:true  });
+    //   const cursor = await this.props.login(this.state)
+    //   this.setState({cursor});
+      } else{this.setState({ errors});}
+
+}
+
     render() { 
+        const {errors} = this.state; 
         return ( 
             <div className="App ">                      
 
@@ -31,33 +65,31 @@ formHandler = (e) => this.setState({[e.target.name]: e.target.value})  // formHa
                 <div className="card-body">
                 <h5 className="card-title">Login</h5>
                 <div className= "form-div">
-                <form onSubmit={this.onFormSubmit}>
+                <form onSubmit={this.onFormSubmit}  >
                     <div className="form-group">
                     <input name= 'username' value = {this.state.username} onChange = {this.formHandler}
-                    type="text" className="form-control" aria-describedby="emailHelp" placeholder="Enter username"/>
+                    type="text" className="form-control" aria-describedby="emailHelp" placeholder="Enter username" disabled={this.state.cursor} />
+                    {errors.username && <span className = "form-text font-weight-light text-danger">{errors.username}</span>}
                      </div>
               
                     <div className="form-group">                      
                         <input name='password'   value = {this.state.password} onChange = {this.formHandler}
-                        type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                        type="password" className={ (errors.password) ? "form-control invalid" :"form-control"  } id="exampleInputPassword1" placeholder="Password" disabled={this.state.cursor}/>
+                        {errors.password && <span className = "form-textfont-weight-light text-danger">{errors.password}</span>}
                     </div>
-                    {this.state.cursor ? <img src={busy}/> : <button type= "submit" className="button btn-primary btn">Submit</button>  }
-                                 
+                    {this.state.cursor ? <img src={busy}/> : <button type= "submit" className="button btn-primary btn">Submit</button>  }                              
             
                 </form>
              </div>
                 </div>
-            </div>
-            
+            </div>          
             
                 
-         </div>
-    
+         </div>   
 
         </div>
       
-      </div> 
-  
+      </div>  
         
       </div>
             );
