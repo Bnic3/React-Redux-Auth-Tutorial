@@ -2,14 +2,17 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const logger = require('morgan'),
+cors = require('cors'),  // origins
 jwt = require('jsonwebtoken');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// use it before all route definitions
+app.use(cors({origin: '*'}));
 
-app.get('/',loginFn)
+app.post('/login',loginFn)
 
 async function loginFn(req,res){
     try {
@@ -17,31 +20,29 @@ async function loginFn(req,res){
         let token ={};
     const {username, password} = req.body;
    
-    let userPayload = await userExist("react","passwor")    
-    .catch(err=> res.json({ success: false, message: 'Authentication failed. Wrong password.' }))
+    let userPayload = await userExist(username, password)    
+    .catch(err=> setTimeout(_=>{res.json({ success: false, message: 'Authentication failed. Wrong password.' })},3000))
   
              token = jwt.sign(userPayload, "superSecret", {
                 expiresIn: "2 days" // expires in 2 days
               });
+
+              //delay response by 2 seconds
+              setTimeout(_=>{
+                res.json({
+                    success: true,
+                    message: 'logged in successfully!',
+                    token,
+                    userPayload
+                  });
+
+              },2000 )
       
-      res.json({
-        success: true,
-        message: 'logged in successfully!',
-        token,
-        userPayload
-      });
+      
 
     }
     catch (e) { console.log("something happened")}
-    
-
-    
-     
-
-    
-    
-
-    
+        
 }
 
 function userExist(username, password){
@@ -49,8 +50,7 @@ function userExist(username, password){
         if (username != "react" || password != "password"){
             const error = new Error("Authentication failed!!")
             reject(error)
-        }else{ resolve ({username: "react",
-                         uiid:"111"})
+        }else{ resolve ({username: "react", uiid:"111"})
             }
     }) //end return
     

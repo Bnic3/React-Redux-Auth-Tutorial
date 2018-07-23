@@ -8,6 +8,7 @@ import {connect}  from "react-redux";
 import Validator from "validator";
 import  isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
+import { login } from './../actions/loginAction';
 
 class Login extends Component {
     constructor(props) {
@@ -46,8 +47,10 @@ onFormSubmit = async (e)=> {
 
     if(isValid){  
         this.setState({ cursor:true  });
-    //   const cursor = await this.props.login(this.state)
-    //   this.setState({cursor});
+       const {message} = await this.props.login(this.state)
+       console.log(message)
+       //Todo: add toaster
+       this.setState({cursor:false});
       } else{this.setState({ errors});}
 
 }
@@ -96,10 +99,14 @@ onFormSubmit = async (e)=> {
     }
 }
 
+ // actions:bindActionCreators(action,dispatch)
 
 // <header className="App-header">
 //           <img src={logo} className="App-logo" alt="logo" />
 //           <h1 className="App-title">Welcome to Fantasia</h1>
 //         </header>   
  
-export default Login;
+Login.propTypes={
+    login:PropTypes.func.isRequired
+}
+export default connect(undefined,{login})(Login);
