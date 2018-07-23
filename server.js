@@ -50,7 +50,7 @@ function userExist(username, password){
         if (username != "react" || password != "password"){
             const error = new Error("Authentication failed!!")
             reject(error)
-        }else{ resolve ({username: "react", uiid:"111"})
+        }else{ resolve ({username: "react", uiid:"111", "avatar":"googl.shrurl" })
             }
     }) //end return
     

@@ -47,8 +47,8 @@ onFormSubmit = async (e)=> {
 
     if(isValid){  
         this.setState({ cursor:true  });
-       const {message} = await this.props.login(this.state)
-       console.log(message)
+       const _ = await this.props.login(this.state)
+       //console.log(message)
        //Todo: add toaster
        this.setState({cursor:false});
       } else{this.setState({ errors});}

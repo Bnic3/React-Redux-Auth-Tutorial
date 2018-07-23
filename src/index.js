@@ -18,6 +18,7 @@ const store = createStore(
     composeEnhancers(applyMiddleware(thunk))
 ); 
 
+
 store.subscribe(()=>{console.log(store.getState())})
 
 const jsx = 

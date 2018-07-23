@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TOGGLE_CURSOR } from './types';
+import { TOGGLE_CURSOR, SET_CURRENT_USER } from './types';
 
 import jwtDecode from 'jwt-decode';
 import SetAuthToken from '../utils/setAuthToken';
@@ -12,6 +12,15 @@ export function login(userData){
             const {token, success,message} = response.data
           if (success){
             let token = response.data.token
+            localStorage.setItem("authtoken",token );
+            SetAuthToken(token);
+            const decoded = jwtDecode(token);
+            console.log("before dispatch")
+            console.log(dispatch)
+            dispatch(setCurrentUser(decoded))
+            console.log(`${decoded.avatar}`)
+
+            //Todo: redirect to from here 
           } 
           
         //   localStorage.setItem("authtoken",token );
@@ -19,7 +28,7 @@ export function login(userData){
         //   const decoded = jwtDecode(token);
         //   console.log(`${decoded.id}`)
     
-          return {message}
+          //return {message}
                  
       },
         (failure)=>{ console.log("501 intrenal error" );}
@@ -28,11 +37,19 @@ export function login(userData){
 }
 
 
-export function toggleState(cursor=false){
-    console.log("i am in toggle acction")
+ function setCurrentUser(user){
     return {
-        type: TOGGLE_CURSOR,
-        cursor
-    }
+        type:SET_CURRENT_USER,
+        user
+        }
+}
+
+
+// export function toggleState(cursor=false){
+//     console.log("i am in toggle acction")
+//     return {
+//         type: TOGGLE_CURSOR,
+//         cursor
+//     }
         
-  }; //end toggle
+//   }; //end toggle
