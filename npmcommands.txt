@@ -1,0 +1,1 @@
+   npm i   axios  body-parser  bootstrap cors express  http-errors jsonwebtoken jwt-decode lodash   morgan prop-types  react  react-server-redux react-dom  react-router-dom react-scripts redux redux-thunk validator --save

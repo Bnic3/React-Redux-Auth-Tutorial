@@ -9,7 +9,8 @@ export function login(userData){
     return dispatch => axios.post('http://localhost:3010/login', userData).then(
         (response)=>{
             console.log("i am in login promise")
-            const {token, success,message} = response.data
+             const {token, success,message} = response.data
+
           if (success){
             let token = response.data.token
             localStorage.setItem("authtoken",token );
@@ -21,14 +22,15 @@ export function login(userData){
             console.log(`${decoded.avatar}`)
 
             //Todo: redirect to from here 
-          } 
+          } //
           
         //   localStorage.setItem("authtoken",token );
         //   SetAuthToken(token);
         //   const decoded = jwtDecode(token);
         //   console.log(`${decoded.id}`)
     
-          //return {message}
+          return {message, success}
+          
                  
       },
         (failure)=>{ console.log("501 intrenal error" );}
