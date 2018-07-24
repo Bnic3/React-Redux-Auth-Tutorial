@@ -10,6 +10,8 @@ import  isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { login } from './../actions/loginAction';
 
+import toastr from "toastr"
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -35,6 +37,9 @@ validateFormInput= (data)=>{
       }
 }   
 
+
+
+
 onFormSubmit = async (e)=> {
     e.preventDefault()
     this.setState({errors:{}})
@@ -48,8 +53,9 @@ onFormSubmit = async (e)=> {
     if(isValid){  
         this.setState({ cursor:true  });
        const{message, success} = await this.props.login(this.state)
-       //console.log(message)
-       //Todo: add toaster
+       let toastMsg = ''
+       success ? toastr.success(message) : toastr.error(message)
+       
        this.setState({cursor:false});
        success && this.props.history.push('/about')
       } else{this.setState({ errors});}

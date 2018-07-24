@@ -21,7 +21,7 @@ async function loginFn(req,res){
     const {username, password} = req.body;
    
     let userPayload = await userExist(username, password)    
-    .catch(err=> setTimeout(_=>{res.json({ success: false, message: 'Authentication failed. Wrong password.',token })},2000))
+    .catch(err=> setTimeout(_=>{res.json({ success: false, message: 'Authentication failed. Wrong username/password.',token })},2000))
   
              token = jwt.sign(userPayload, "superSecret", {
                 expiresIn: "2 days" // expires in 2 days
@@ -31,7 +31,7 @@ async function loginFn(req,res){
               setTimeout(_=>{
                 res.json({
                     success: true,
-                    message: 'logged in successfully!',
+                    message: 'You logged in successfully!',
                     token,
                     userPayload
                   });

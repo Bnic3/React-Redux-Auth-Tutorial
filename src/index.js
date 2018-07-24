@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+
+import '../node_modules/toastr/build/toastr.min.css' 
+
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import AppRouter from './AppRouter';
