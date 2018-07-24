@@ -22,7 +22,8 @@ const store = createStore(
 ); 
 
 
-store.subscribe(()=>{console.log(store.getState())})
+
+setAuthToken(localStorage.getItem("authtoken"))
 
 const jsx = 
 (<Provider store= {store} >
